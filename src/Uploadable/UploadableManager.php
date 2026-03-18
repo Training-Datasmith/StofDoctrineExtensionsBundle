@@ -8,17 +8,14 @@ use Gedmo\Uploadable\UploadableListener;
 
 class UploadableManager
 {
-    private UploadableListener $listener;
-    /** @var class-string<FileInfoInterface> */
-    private string $fileInfoClass;
+    private readonly UploadableListener $listener;
 
     /**
      * @param class-string<FileInfoInterface> $fileInfoClass
      */
-    public function __construct(UploadableListener $listener, string $fileInfoClass)
+    public function __construct(UploadableListener $listener, private readonly string $fileInfoClass)
     {
         $this->listener = $listener;
-        $this->fileInfoClass = $fileInfoClass;
     }
 
     /**
@@ -28,10 +25,8 @@ class UploadableManager
      *
      * @param object $entity   - The entity you are marking to "Upload" as soon as you call "flush".
      * @param mixed  $fileInfo - The file info object or array. In Symfony, this will be typically an UploadedFile instance.
-     *
-     * @return void
      */
-    public function markEntityToUpload($entity, $fileInfo)
+    public function markEntityToUpload($entity, $fileInfo): void
     {
         if (is_object($fileInfo) && $fileInfo instanceof UploadedFile) {
             $fileInfoClass = $this->fileInfoClass;
@@ -42,10 +37,7 @@ class UploadableManager
         $this->listener->addEntityFileInfo($entity, $fileInfo);
     }
 
-    /**
-     * @return \Gedmo\Uploadable\UploadableListener
-     */
-    public function getUploadableListener()
+    public function getUploadableListener(): \Gedmo\Uploadable\UploadableListener
     {
         return $this->listener;
     }

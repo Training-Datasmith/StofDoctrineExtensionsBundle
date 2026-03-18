@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadedFileInfo implements FileInfoInterface
 {
-    private UploadedFile $uploadedFile;
+    private readonly UploadedFile $uploadedFile;
 
     public function __construct(UploadedFile $uploadedFile)
     {
@@ -58,10 +58,8 @@ class UploadedFileInfo implements FileInfoInterface
 
     /**
      * {@inheritDoc}
-     *
-     * @return bool
      */
-    public function isUploadedFile()
+    public function isUploadedFile(): bool
     {
         return is_uploaded_file($this->uploadedFile->getPathname());
     }

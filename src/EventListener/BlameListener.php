@@ -19,15 +19,11 @@ use Gedmo\Blameable\BlameableListener;
  */
 class BlameListener implements EventSubscriberInterface
 {
-    private ?AuthorizationCheckerInterface $authorizationChecker;
-    private ?TokenStorageInterface $tokenStorage;
-    private BlameableListener $blameableListener;
+    private readonly BlameableListener $blameableListener;
 
-    public function __construct(BlameableListener $blameableListener, ?TokenStorageInterface $tokenStorage = null, ?AuthorizationCheckerInterface $authorizationChecker = null)
+    public function __construct(BlameableListener $blameableListener, private readonly ?TokenStorageInterface $tokenStorage = null, private readonly ?AuthorizationCheckerInterface $authorizationChecker = null)
     {
         $this->blameableListener = $blameableListener;
-        $this->tokenStorage = $tokenStorage;
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -54,8 +50,8 @@ class BlameListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array(
+        return [
             KernelEvents::REQUEST => 'onKernelRequest',
-        );
+        ];
     }
 }

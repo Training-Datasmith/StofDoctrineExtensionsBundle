@@ -10,7 +10,7 @@ use Symfony\Contracts\Translation\LocaleAwareInterface;
  */
 final class LocaleSynchronizer implements LocaleAwareInterface
 {
-    private TranslatableListener $listener;
+    private readonly TranslatableListener $listener;
 
     public function __construct(TranslatableListener $listener)
     {

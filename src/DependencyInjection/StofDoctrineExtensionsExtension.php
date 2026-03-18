@@ -16,37 +16,37 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class StofDoctrineExtensionsExtension extends Extension
 {
-    private const LISTENER_EVENTS = array(
-        'blameable' => array(
+    private const LISTENER_EVENTS = [
+        'blameable' => [
             'prePersist',
             'onFlush',
             'loadClassMetadata',
-        ),
-        'ip_traceable' => array(
+        ],
+        'ip_traceable' => [
             'prePersist',
             'onFlush',
             'loadClassMetadata',
-        ),
-        'loggable' => array(
+        ],
+        'loggable' => [
             'loadClassMetadata',
             'onFlush',
             'postPersist',
-        ),
-        'reference_integrity' => array(
+        ],
+        'reference_integrity' => [
             'loadClassMetadata',
             'preRemove',
-        ),
-        'sluggable' => array(
+        ],
+        'sluggable' => [
             'prePersist',
             'onFlush',
             'loadClassMetadata',
-        ),
-        'softdeleteable' => array(
+        ],
+        'softdeleteable' => [
             'loadClassMetadata',
             'onFlush',
             'postFlush',
-        ),
-        'sortable' => array(
+        ],
+        'sortable' => [
             'onFlush',
             'loadClassMetadata',
             'prePersist',
@@ -54,20 +54,20 @@ class StofDoctrineExtensionsExtension extends Extension
             'preUpdate',
             'postRemove',
             'postFlush',
-        ),
-        'timestampable' => array(
+        ],
+        'timestampable' => [
             'prePersist',
             'onFlush',
             'loadClassMetadata',
-        ),
-        'translatable' => array(
+        ],
+        'translatable' => [
             'postLoad',
             'postPersist',
             'preFlush',
             'onFlush',
             'loadClassMetadata',
-        ),
-        'tree' => array(
+        ],
+        'tree' => [
             'prePersist',
             'preRemove',
             'preUpdate',
@@ -76,23 +76,20 @@ class StofDoctrineExtensionsExtension extends Extension
             'postPersist',
             'postUpdate',
             'postRemove',
-        ),
-        'uploadable' => array(
+        ],
+        'uploadable' => [
             'loadClassMetadata',
             'preFlush',
             'onFlush',
             'postFlush',
-        ),
-    );
+        ],
+    ];
 
     /** @var list<string> */
-    private array $entityManagers = array();
+    private array $entityManagers = [];
     /** @var list<string> */
-    private array $documentManagers = array();
+    private array $documentManagers = [];
 
-    /**
-     * @return void
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $processor = new Processor();
@@ -103,7 +100,7 @@ class StofDoctrineExtensionsExtension extends Extension
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('tool.php');
 
-        $loaded = array();
+        $loaded = [];
 
         $this->entityManagers = $this->processObjectManagerConfigurations($config['orm'], $container, $loader, $loaded, 'doctrine.event_listener');
         $this->documentManagers = $this->processObjectManagerConfigurations($config['mongodb'], $container, $loader, $loaded, 'doctrine_mongodb.odm.event_listener');
@@ -132,7 +129,7 @@ class StofDoctrineExtensionsExtension extends Extension
 
             if ($uploadableConfig['default_file_path']) {
                 $container->getDefinition('stof_doctrine_extensions.listener.uploadable')
-                    ->addMethodCall('setDefaultPath', array($uploadableConfig['default_file_path']));
+                    ->addMethodCall('setDefaultPath', [$uploadableConfig['default_file_path']]);
             }
 
             if ($uploadableConfig['mime_type_guesser_class']) {
@@ -180,22 +177,19 @@ class StofDoctrineExtensionsExtension extends Extension
 
     /**
      * @param array<string, array<string, bool>> $configs
-     * @param ContainerBuilder                   $container
-     * @param LoaderInterface                    $loader
      * @param array<string, true>                $loaded
-     * @param string                             $doctrineListenerTag
      *
      * @return list<string>
      */
-    private function processObjectManagerConfigurations(array $configs, ContainerBuilder $container, LoaderInterface $loader, array &$loaded, string $doctrineListenerTag)
+    private function processObjectManagerConfigurations(array $configs, ContainerBuilder $container, LoaderInterface $loader, array &$loaded, string $doctrineListenerTag): array
     {
-        $usedManagers = array();
+        $usedManagers = [];
 
-        $listenerPriorities = array(
+        $listenerPriorities = [
             'translatable' => -10,
             'loggable' => 5,
             'uploadable' => -5,
-        );
+        ];
 
         foreach ($configs as $name => $listeners) {
             foreach ($listeners as $ext => $enabled) {
@@ -208,7 +202,7 @@ class StofDoctrineExtensionsExtension extends Extension
                     $loaded[$ext] = true;
                 }
 
-                $attributes = array('connection' => $name);
+                $attributes = ['connection' => $name];
 
                 if (isset($listenerPriorities[$ext])) {
                     $attributes['priority'] = $listenerPriorities[$ext];

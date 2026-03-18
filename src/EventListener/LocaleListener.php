@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class LocaleListener implements EventSubscriberInterface
 {
-    private TranslatableListener $translatableListener;
+    private readonly TranslatableListener $translatableListener;
 
     public function __construct(TranslatableListener $translatableListener)
     {
@@ -36,8 +36,8 @@ class LocaleListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return array(
+        return [
             KernelEvents::REQUEST => 'onKernelRequest',
-        );
+        ];
     }
 }

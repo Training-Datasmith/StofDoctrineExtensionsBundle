@@ -14,13 +14,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class TokenStorageActorProvider implements ActorProviderInterface
 {
-    private ?TokenStorageInterface $tokenStorage;
-    private ?AuthorizationCheckerInterface $authorizationChecker;
-
-    public function __construct(?TokenStorageInterface $tokenStorage = null, ?AuthorizationCheckerInterface $authorizationChecker = null)
+    public function __construct(private readonly ?TokenStorageInterface $tokenStorage = null, private readonly ?AuthorizationCheckerInterface $authorizationChecker = null)
     {
-        $this->tokenStorage = $tokenStorage;
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function getActor(): ?UserInterface

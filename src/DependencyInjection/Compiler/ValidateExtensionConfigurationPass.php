@@ -18,9 +18,7 @@ class ValidateExtensionConfigurationPass implements CompilerPassInterface
      * DBAL and ODM services, which aren't available during the config merge
      * compiler pass.
      *
-     * @param ContainerBuilder $container
      *
-     * @return void
      */
     public function process(ContainerBuilder $container): void
     {

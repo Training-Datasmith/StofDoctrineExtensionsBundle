@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stof\DoctrineExtensionsBundle\Uploadable;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Gedmo\Uploadable\FileInfo\FileInfoInterface;
 use Gedmo\Uploadable\UploadableListener;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadableManager
 {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Gedmo\Uploadable\UploadableListener;
@@ -31,13 +33,13 @@ return static function (ContainerConfigurator $container): void {
         ->set('stof_doctrine_extensions.uploadable.manager', param('stof_doctrine_extensions.uploadable.manager.class'))
             ->args([
                 service('stof_doctrine_extensions.listener.uploadable'),
-                param('stof_doctrine_extensions.uploadable.default_file_info.class')
+                param('stof_doctrine_extensions.uploadable.default_file_info.class'),
             ])
         ->alias(UploadableManager::class, 'stof_doctrine_extensions.uploadable.manager')
 
         ->set('stof_doctrine_extensions.uploadable.configurator', ValidatorConfigurator::class)
             ->args([
-                param('stof_doctrine_extensions.uploadable.validate_writable_directory')
+                param('stof_doctrine_extensions.uploadable.validate_writable_directory'),
             ])
     ;
 };

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stof\DoctrineExtensionsBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stof\DoctrineExtensionsBundle\EventListener;
 
 use Gedmo\Translatable\TranslatableListener;

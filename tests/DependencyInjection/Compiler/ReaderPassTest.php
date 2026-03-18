@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Stof\DoctrineExtensionsBundle\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;

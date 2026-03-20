@@ -1,17 +1,15 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle\Dependency_Injection\Compiler;
 
-namespace Stof\DoctrineExtensionsBundle\DependencyInjection\Compiler;
-
-use Stof\DoctrineExtensionsBundle\DependencyInjection\StofDoctrineExtensionsExtension;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-
+use Stof\Doctrine_Extensions_Bundle\Dependency_Injection\Stof_Doctrine_Extensions_Extension;
+use Symfony\Component\Dependency_Injection\Compiler\Compiler_Pass_Interface;
+use Symfony\Component\Dependency_Injection\Container_Builder;
 /**
  * @internal
  */
-class ValidateExtensionConfigurationPass implements CompilerPassInterface
+class Validate_Extension_Configuration_Pass implements Compiler_Pass_Interface
 {
     /**
      * Validate the DoctrineExtensions DIC extension config.
@@ -22,11 +20,10 @@ class ValidateExtensionConfigurationPass implements CompilerPassInterface
      *
      *
      */
-    public function process(ContainerBuilder $container): void
+    public function process(Container_Builder $container): void
     {
-        $extension = $container->getExtension('stof_doctrine_extensions');
-        \assert($extension instanceof StofDoctrineExtensionsExtension);
-
-        $extension->configValidate($container);
+        $extension = $container->get_extension('stof_doctrine_extensions');
+        \assert($extension instanceof Stof_Doctrine_Extensions_Extension);
+        $extension->config_validate($container);
     }
 }

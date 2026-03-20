@@ -1,19 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Symfony\Component\Dependency_Injection\Loader\Configurator;
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use Gedmo\Sortable\SortableListener;
-
-return static function (ContainerConfigurator $container): void {
-    $container->parameters()
-        ->set('stof_doctrine_extensions.listener.sortable.class', SortableListener::class)
-    ;
-
-    $container->services()
-        ->set('stof_doctrine_extensions.listener.sortable', param('stof_doctrine_extensions.listener.sortable.class'))
-            ->call('setCacheItemPool', [service('stof_doctrine_extensions.metadata_cache')])
-            ->call('setAnnotationReader', [service('.stof_doctrine_extensions.reader')->ignoreOnInvalid()])
-    ;
+use Gedmo\Sortable\Sortable_Listener;
+return static function (Container_Configurator $container): void {
+    $container->parameters()->set('stof_doctrine_extensions.listener.sortable.class', Sortable_Listener::class);
+    $container->services()->set('stof_doctrine_extensions.listener.sortable', param('stof_doctrine_extensions.listener.sortable.class'))->call('setCacheItemPool', [service('stof_doctrine_extensions.metadata_cache')])->call('setAnnotationReader', [service('.stof_doctrine_extensions.reader')->ignore_on_invalid()]);
 };

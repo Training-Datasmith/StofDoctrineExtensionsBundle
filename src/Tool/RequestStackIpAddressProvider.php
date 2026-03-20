@@ -1,35 +1,29 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle\Tool;
 
-namespace Stof\DoctrineExtensionsBundle\Tool;
-
-use Gedmo\Tool\IpAddressProviderInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-
+use Gedmo\Tool\Ip_Address_Provider_Interface;
+use Symfony\Component\Http_Foundation\Request_Stack;
 /**
  * Provides an IP address for the extensions using an IP address reference.
  *
  * @internal
  */
-final class RequestStackIpAddressProvider implements IpAddressProviderInterface
+final class Request_Stack_Ip_Address_Provider implements Ip_Address_Provider_Interface
 {
-    public function __construct(private readonly ?RequestStack $requestStack)
+    public function __construct(private readonly ?Request_Stack $request_stack)
     {
     }
-
-    public function getAddress(): ?string
+    public function get_address(): ?string
     {
-        if (null === $this->requestStack) {
+        if (null === $this->request_stack) {
             return null;
         }
-
-        $request = $this->requestStack->getCurrentRequest();
-
+        $request = $this->request_stack->get_current_request();
         if (null === $request) {
             return null;
         }
-
-        return $request->getClientIp();
+        return $request->get_client_ip();
     }
 }

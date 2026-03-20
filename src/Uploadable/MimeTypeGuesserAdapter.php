@@ -1,21 +1,18 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle\Uploadable;
 
-namespace Stof\DoctrineExtensionsBundle\Uploadable;
-
-use Gedmo\Uploadable\MimeType\MimeTypeGuesserInterface;
-use Symfony\Component\Mime\MimeTypes;
-
-class MimeTypeGuesserAdapter implements MimeTypeGuesserInterface
+use Gedmo\Uploadable\Mime_Type\Mime_Type_Guesser_Interface;
+use Symfony\Component\Mime\Mime_Types;
+class Mime_Type_Guesser_Adapter implements Mime_Type_Guesser_Interface
 {
     /**
      * @param string $filePath
      * @return ?string
      */
-    public function guess($filePath)
+    public function guess($file_path)
     {
-        return MimeTypes::getDefault()->guessMimeType($filePath);
+        return Mime_Types::get_default()->guess_mime_type($file_path);
     }
-
 }

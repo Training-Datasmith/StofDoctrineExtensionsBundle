@@ -1,164 +1,49 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle\Dependency_Injection;
 
-namespace Stof\DoctrineExtensionsBundle\DependencyInjection;
-
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
-
+use Symfony\Component\Config\Definition\Builder\Array_Node_Definition;
+use Symfony\Component\Config\Definition\Builder\Tree_Builder;
+use Symfony\Component\Config\Definition\Configuration_Interface;
 /**
  * @internal
  */
-class Configuration implements ConfigurationInterface
+class Configuration implements Configuration_Interface
 {
-    public function getConfigTreeBuilder(): TreeBuilder
+    public function get_config_tree_builder(): Tree_Builder
     {
-        $treeBuilder = new TreeBuilder('stof_doctrine_extensions');
-        $rootNode = $treeBuilder->getRootNode();
-
-        $rootNode
-            ->append($this->getVendorNode('orm'))
-            ->append($this->getVendorNode('mongodb'))
-            ->append($this->getClassNode())
-            ->append($this->getSoftDeleteableNode())
-            ->append($this->getUploadableNode())
-            ->children()
-                ->scalarNode('default_locale')
-                    ->cannotBeEmpty()
-                    ->defaultValue('en')
-                ->end()
-                ->booleanNode('translation_fallback')->defaultFalse()->end()
-                ->booleanNode('persist_default_translation')->defaultFalse()->end()
-                ->booleanNode('skip_translation_on_load')->defaultFalse()->end()
-                ->scalarNode('metadata_cache_pool')->defaultNull()->end()
-            ->end()
-        ;
-
-        return $treeBuilder;
+        $tree_builder = new Tree_Builder('stof_doctrine_extensions');
+        $root_node = $tree_builder->get_root_node();
+        $root_node->append($this->get_vendor_node('orm'))->append($this->get_vendor_node('mongodb'))->append($this->get_class_node())->append($this->get_soft_deleteable_node())->append($this->get_uploadable_node())->children()->scalar_node('default_locale')->cannot_be_empty()->default_value('en')->end()->boolean_node('translation_fallback')->default_false()->end()->boolean_node('persist_default_translation')->default_false()->end()->boolean_node('skip_translation_on_load')->default_false()->end()->scalar_node('metadata_cache_pool')->default_null()->end()->end();
+        return $tree_builder;
     }
-
-    private function getVendorNode(string $name): ArrayNodeDefinition
+    private function get_vendor_node(string $name): Array_Node_Definition
     {
-        $treeBuilder = new TreeBuilder($name);
-        $node = $treeBuilder->getRootNode();
-
-        $node
-            ->useAttributeAsKey('id')
-            ->prototype('array')
-                ->children()
-                    ->scalarNode('translatable')->defaultFalse()->end()
-                    ->scalarNode('timestampable')->defaultFalse()->end()
-                    ->scalarNode('blameable')->defaultFalse()->end()
-                    ->scalarNode('sluggable')->defaultFalse()->end()
-                    ->scalarNode('tree')->defaultFalse()->end()
-                    ->scalarNode('loggable')->defaultFalse()->end()
-                    ->scalarNode('ip_traceable')->defaultFalse()->end()
-                    ->scalarNode('sortable')->defaultFalse()->end()
-                    ->scalarNode('softdeleteable')->defaultFalse()->end()
-                    ->scalarNode('uploadable')->defaultFalse()->end()
-                    ->scalarNode('reference_integrity')->defaultFalse()->end()
-                ->end()
-            ->end()
-        ;
-
+        $tree_builder = new Tree_Builder($name);
+        $node = $tree_builder->get_root_node();
+        $node->use_attribute_as_key('id')->prototype('array')->children()->scalar_node('translatable')->default_false()->end()->scalar_node('timestampable')->default_false()->end()->scalar_node('blameable')->default_false()->end()->scalar_node('sluggable')->default_false()->end()->scalar_node('tree')->default_false()->end()->scalar_node('loggable')->default_false()->end()->scalar_node('ip_traceable')->default_false()->end()->scalar_node('sortable')->default_false()->end()->scalar_node('softdeleteable')->default_false()->end()->scalar_node('uploadable')->default_false()->end()->scalar_node('reference_integrity')->default_false()->end()->end()->end();
         return $node;
     }
-
-    private function getClassNode(): ArrayNodeDefinition
+    private function get_class_node(): Array_Node_Definition
     {
-        $treeBuilder = new TreeBuilder('class');
-        $node = $treeBuilder->getRootNode();
-
-        $node
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->scalarNode('translatable')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\Translatable\TranslatableListener')
-                ->end()
-                ->scalarNode('timestampable')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\\Timestampable\\TimestampableListener')
-                ->end()
-                ->scalarNode('blameable')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\\Blameable\\BlameableListener')
-                ->end()
-                ->scalarNode('sluggable')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\\Sluggable\\SluggableListener')
-                ->end()
-                ->scalarNode('tree')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\\Tree\\TreeListener')
-                ->end()
-                ->scalarNode('loggable')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\Loggable\LoggableListener')
-                ->end()
-                ->scalarNode('sortable')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\\Sortable\\SortableListener')
-                ->end()
-                ->scalarNode('softdeleteable')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\\SoftDeleteable\\SoftDeleteableListener')
-                ->end()
-                ->scalarNode('uploadable')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\\Uploadable\\UploadableListener')
-                ->end()
-                ->scalarNode('reference_integrity')
-                    ->cannotBeEmpty()
-                    ->defaultValue('Gedmo\\ReferenceIntegrity\\ReferenceIntegrityListener')
-                ->end()
-            ->end()
-        ;
-
+        $tree_builder = new Tree_Builder('class');
+        $node = $tree_builder->get_root_node();
+        $node->add_defaults_if_not_set()->children()->scalar_node('translatable')->cannot_be_empty()->default_value('Gedmo\Translatable\TranslatableListener')->end()->scalar_node('timestampable')->cannot_be_empty()->default_value('Gedmo\Timestampable\TimestampableListener')->end()->scalar_node('blameable')->cannot_be_empty()->default_value('Gedmo\Blameable\BlameableListener')->end()->scalar_node('sluggable')->cannot_be_empty()->default_value('Gedmo\Sluggable\SluggableListener')->end()->scalar_node('tree')->cannot_be_empty()->default_value('Gedmo\Tree\TreeListener')->end()->scalar_node('loggable')->cannot_be_empty()->default_value('Gedmo\Loggable\LoggableListener')->end()->scalar_node('sortable')->cannot_be_empty()->default_value('Gedmo\Sortable\SortableListener')->end()->scalar_node('softdeleteable')->cannot_be_empty()->default_value('Gedmo\SoftDeleteable\SoftDeleteableListener')->end()->scalar_node('uploadable')->cannot_be_empty()->default_value('Gedmo\Uploadable\UploadableListener')->end()->scalar_node('reference_integrity')->cannot_be_empty()->default_value('Gedmo\ReferenceIntegrity\ReferenceIntegrityListener')->end()->end();
         return $node;
     }
-
-    private function getSoftDeleteableNode(): ArrayNodeDefinition
+    private function get_soft_deleteable_node(): Array_Node_Definition
     {
-        $treeBuilder = new TreeBuilder('softdeleteable');
-        $node = $treeBuilder->getRootNode();
-
-        $node
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->booleanNode('handle_post_flush_event')->defaultFalse()->end()
-            ->end()
-        ;
-
+        $tree_builder = new Tree_Builder('softdeleteable');
+        $node = $tree_builder->get_root_node();
+        $node->add_defaults_if_not_set()->children()->boolean_node('handle_post_flush_event')->default_false()->end()->end();
         return $node;
     }
-
-    private function getUploadableNode(): ArrayNodeDefinition
+    private function get_uploadable_node(): Array_Node_Definition
     {
-        $treeBuilder = new TreeBuilder('uploadable');
-        $node = $treeBuilder->getRootNode();
-
-        $node
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->scalarNode('default_file_path')
-                    ->cannotBeEmpty()
-                    ->defaultNull()
-                ->end()
-                ->scalarNode('mime_type_guesser_class')
-                    ->cannotBeEmpty()
-                    ->defaultValue(\Stof\DoctrineExtensionsBundle\Uploadable\MimeTypeGuesserAdapter::class)
-                ->end()
-                ->scalarNode('default_file_info_class')
-                    ->cannotBeEmpty()
-                    ->defaultValue(\Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo::class)
-                ->end()
-                ->booleanNode('validate_writable_directory')->defaultTrue()->end()
-            ->end()
-        ;
-
+        $tree_builder = new Tree_Builder('uploadable');
+        $node = $tree_builder->get_root_node();
+        $node->add_defaults_if_not_set()->children()->scalar_node('default_file_path')->cannot_be_empty()->default_null()->end()->scalar_node('mime_type_guesser_class')->cannot_be_empty()->default_value(\Stof\Doctrine_Extensions_Bundle\Uploadable\Mime_Type_Guesser_Adapter::class)->end()->scalar_node('default_file_info_class')->cannot_be_empty()->default_value(\Stof\Doctrine_Extensions_Bundle\Uploadable\Uploaded_File_Info::class)->end()->boolean_node('validate_writable_directory')->default_true()->end()->end();
         return $node;
     }
 }

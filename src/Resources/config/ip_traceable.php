@@ -1,16 +1,9 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Symfony\Component\Dependency_Injection\Loader\Configurator;
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use Gedmo\IpTraceable\IpTraceableListener;
-
-return static function (ContainerConfigurator $container): void {
-    $container->services()
-        ->set('stof_doctrine_extensions.listener.ip_traceable', IpTraceableListener::class)
-            ->call('setCacheItemPool', [service('stof_doctrine_extensions.metadata_cache')])
-            ->call('setAnnotationReader', [service('.stof_doctrine_extensions.reader')->ignoreOnInvalid()])
-            ->call('setIpAddressProvider', [service('stof_doctrine_extensions.tool.ip_address_provider')])
-    ;
+use Gedmo\Ip_Traceable\Ip_Traceable_Listener;
+return static function (Container_Configurator $container): void {
+    $container->services()->set('stof_doctrine_extensions.listener.ip_traceable', Ip_Traceable_Listener::class)->call('setCacheItemPool', [service('stof_doctrine_extensions.metadata_cache')])->call('setAnnotationReader', [service('.stof_doctrine_extensions.reader')->ignore_on_invalid()])->call('setIpAddressProvider', [service('stof_doctrine_extensions.tool.ip_address_provider')]);
 };

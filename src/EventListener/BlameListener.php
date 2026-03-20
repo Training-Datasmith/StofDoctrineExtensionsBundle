@@ -1,17 +1,14 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle\Event_Listener;
 
-namespace Stof\DoctrineExtensionsBundle\EventListener;
-
-use Gedmo\Blameable\BlameableListener;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
+use Gedmo\Blameable\Blameable_Listener;
+use Symfony\Component\Event_Dispatcher\Event_Subscriber_Interface;
+use Symfony\Component\Http_Kernel\Event\Request_Event;
+use Symfony\Component\Http_Kernel\Kernel_Events;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\Token_Storage_Interface;
+use Symfony\Component\Security\Core\Authorization\Authorization_Checker_Interface;
 /**
  * Sets the username from the security context by listening on kernel.request
  *
@@ -19,41 +16,34 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  *
  * @deprecated to be removed in 2.0, use the actor provider instead
  */
-class BlameListener implements EventSubscriberInterface
+class Blame_Listener implements Event_Subscriber_Interface
 {
-    private readonly BlameableListener $blameableListener;
-
-    public function __construct(BlameableListener $blameableListener, private readonly ?TokenStorageInterface $tokenStorage = null, private readonly ?AuthorizationCheckerInterface $authorizationChecker = null)
+    private readonly Blameable_Listener $blameable_listener;
+    public function __construct(Blameable_Listener $blameable_listener, private readonly ?Token_Storage_Interface $token_storage = null, private readonly ?Authorization_Checker_Interface $authorization_checker = null)
     {
-        $this->blameableListener = $blameableListener;
+        $this->blameable_listener = $blameable_listener;
     }
-
     /**
      * @internal
      */
-    public function onKernelRequest(RequestEvent $event): void
+    public function on_kernel_request(Request_Event $event): void
     {
-        if (!$event->isMainRequest()) {
+        if (!$event->is_main_request()) {
             return;
         }
-
-        if (null === $this->tokenStorage || null === $this->authorizationChecker) {
+        if (null === $this->token_storage || null === $this->authorization_checker) {
             return;
         }
-
-        $token = $this->tokenStorage->getToken();
-        if (null !== $token && $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->blameableListener->setUserValue($token->getUser());
+        $token = $this->token_storage->get_token();
+        if (null !== $token && $this->authorization_checker->is_granted('IS_AUTHENTICATED_REMEMBERED')) {
+            $this->blameable_listener->set_user_value($token->get_user());
         }
     }
-
     /**
      * @return array<string, string>
      */
-    public static function getSubscribedEvents(): array
+    public static function get_subscribed_events(): array
     {
-        return [
-            KernelEvents::REQUEST => 'onKernelRequest',
-        ];
+        return [Kernel_Events::REQUEST => 'onKernelRequest'];
     }
 }

@@ -1,22 +1,20 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle;
 
-namespace Stof\DoctrineExtensionsBundle;
-
-use Stof\DoctrineExtensionsBundle\DependencyInjection\Compiler\ReaderPass;
-use Stof\DoctrineExtensionsBundle\DependencyInjection\Compiler\ValidateExtensionConfigurationPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class StofDoctrineExtensionsBundle extends Bundle
+use Stof\Doctrine_Extensions_Bundle\Dependency_Injection\Compiler\Reader_Pass;
+use Stof\Doctrine_Extensions_Bundle\Dependency_Injection\Compiler\Validate_Extension_Configuration_Pass;
+use Symfony\Component\Dependency_Injection\Container_Builder;
+use Symfony\Component\Http_Kernel\Bundle\Bundle;
+class Stof_Doctrine_Extensions_Bundle extends Bundle
 {
     /**
      * {@inheritdoc}
      */
-    public function build(ContainerBuilder $container): void
+    public function build(Container_Builder $container): void
     {
-        $container->addCompilerPass(new ValidateExtensionConfigurationPass());
-        $container->addCompilerPass(new ReaderPass());
+        $container->add_compiler_pass(new Validate_Extension_Configuration_Pass());
+        $container->add_compiler_pass(new Reader_Pass());
     }
 }

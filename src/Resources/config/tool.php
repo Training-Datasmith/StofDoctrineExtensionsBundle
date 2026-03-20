@@ -1,23 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Symfony\Component\Dependency_Injection\Loader\Configurator;
 
-namespace Symfony\Component\DependencyInjection\Loader\Configurator;
-
-use Stof\DoctrineExtensionsBundle\Tool\RequestStackIpAddressProvider;
-use Stof\DoctrineExtensionsBundle\Tool\TokenStorageActorProvider;
-
-return static function (ContainerConfigurator $container): void {
-    $container->services()
-        ->set('stof_doctrine_extensions.tool.actor_provider', TokenStorageActorProvider::class)
-            ->args([
-                service('security.token_storage')->nullOnInvalid(),
-                service('security.authorization_checker')->nullOnInvalid(),
-            ])
-
-        ->set('stof_doctrine_extensions.tool.ip_address_provider', RequestStackIpAddressProvider::class)
-            ->args([
-                service('request_stack')->nullOnInvalid(),
-            ])
-    ;
+use Stof\Doctrine_Extensions_Bundle\Tool\Request_Stack_Ip_Address_Provider;
+use Stof\Doctrine_Extensions_Bundle\Tool\Token_Storage_Actor_Provider;
+return static function (Container_Configurator $container): void {
+    $container->services()->set('stof_doctrine_extensions.tool.actor_provider', Token_Storage_Actor_Provider::class)->args([service('security.token_storage')->null_on_invalid(), service('security.authorization_checker')->null_on_invalid()])->set('stof_doctrine_extensions.tool.ip_address_provider', Request_Stack_Ip_Address_Provider::class)->args([service('request_stack')->null_on_invalid()]);
 };

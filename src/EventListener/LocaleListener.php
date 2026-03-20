@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle\Event_Listener;
 
-namespace Stof\DoctrineExtensionsBundle\EventListener;
-
-use Gedmo\Translatable\TranslatableListener;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-
+use Gedmo\Translatable\Translatable_Listener;
+use Symfony\Component\Event_Dispatcher\Event_Subscriber_Interface;
+use Symfony\Component\Http_Kernel\Event\Request_Event;
+use Symfony\Component\Http_Kernel\Kernel_Events;
 /**
  * This listener sets the current locale for the TranslatableListener
  *
@@ -16,30 +14,25 @@ use Symfony\Component\HttpKernel\KernelEvents;
  *
  * @deprecated since 1.14. Use the LocaleSynchronizer instead.
  */
-class LocaleListener implements EventSubscriberInterface
+class Locale_Listener implements Event_Subscriber_Interface
 {
-    private readonly TranslatableListener $translatableListener;
-
-    public function __construct(TranslatableListener $translatableListener)
+    private readonly Translatable_Listener $translatable_listener;
+    public function __construct(Translatable_Listener $translatable_listener)
     {
-        $this->translatableListener = $translatableListener;
+        $this->translatable_listener = $translatable_listener;
     }
-
     /**
      * @internal
      */
-    public function onKernelRequest(RequestEvent $event): void
+    public function on_kernel_request(Request_Event $event): void
     {
-        $this->translatableListener->setTranslatableLocale($event->getRequest()->getLocale());
+        $this->translatable_listener->set_translatable_locale($event->get_request()->get_locale());
     }
-
     /**
      * @return array<string, string>
      */
-    public static function getSubscribedEvents(): array
+    public static function get_subscribed_events(): array
     {
-        return [
-            KernelEvents::REQUEST => 'onKernelRequest',
-        ];
+        return [Kernel_Events::REQUEST => 'onKernelRequest'];
     }
 }

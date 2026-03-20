@@ -1,68 +1,58 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle\Uploadable;
 
-namespace Stof\DoctrineExtensionsBundle\Uploadable;
-
-use Gedmo\Uploadable\FileInfo\FileInfoInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-
-class UploadedFileInfo implements FileInfoInterface
+use Gedmo\Uploadable\File_Info\File_Info_Interface;
+use Symfony\Component\Http_Foundation\File\Uploaded_File;
+class Uploaded_File_Info implements File_Info_Interface
 {
-    private readonly UploadedFile $uploadedFile;
-
-    public function __construct(UploadedFile $uploadedFile)
+    private readonly Uploaded_File $uploaded_file;
+    public function __construct(Uploaded_File $uploaded_file)
     {
-        $this->uploadedFile = $uploadedFile;
+        $this->uploaded_file = $uploaded_file;
     }
-
     /**
      * @return ?string
      */
-    public function getTmpName()
+    public function get_tmp_name()
     {
-        return $this->uploadedFile->getPathname();
+        return $this->uploaded_file->get_pathname();
     }
-
     /**
      * @return ?string
      */
-    public function getName()
+    public function get_name()
     {
-        return $this->uploadedFile->getClientOriginalName();
+        return $this->uploaded_file->get_client_original_name();
     }
-
     /**
      * @return int|null
      */
-    public function getSize()
+    public function get_size()
     {
-        $size = $this->uploadedFile->getSize();
-
+        $size = $this->uploaded_file->get_size();
         return $size !== false ? $size : null;
     }
-
     /**
      * @return ?string
      */
-    public function getType()
+    public function get_type()
     {
-        return $this->uploadedFile->getMimeType();
+        return $this->uploaded_file->get_mime_type();
     }
-
     /**
      * @return int
      */
-    public function getError()
+    public function get_error()
     {
-        return $this->uploadedFile->getError();
+        return $this->uploaded_file->get_error();
     }
-
     /**
      * {@inheritDoc}
      */
-    public function isUploadedFile(): bool
+    public function is_uploaded_file(): bool
     {
-        return is_uploaded_file($this->uploadedFile->getPathname());
+        return is_uploaded_file($this->uploaded_file->get_pathname());
     }
 }

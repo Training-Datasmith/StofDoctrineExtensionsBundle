@@ -1,31 +1,26 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace Stof\Doctrine_Extensions_Bundle\Tool;
 
-namespace Stof\DoctrineExtensionsBundle\Tool;
-
-use Gedmo\Translatable\TranslatableListener;
-use Symfony\Contracts\Translation\LocaleAwareInterface;
-
+use Gedmo\Translatable\Translatable_Listener;
+use Symfony\Contracts\Translation\Locale_Aware_Interface;
 /**
  * @internal
  */
-final class LocaleSynchronizer implements LocaleAwareInterface
+final class Locale_Synchronizer implements Locale_Aware_Interface
 {
-    private readonly TranslatableListener $listener;
-
-    public function __construct(TranslatableListener $listener)
+    private readonly Translatable_Listener $listener;
+    public function __construct(Translatable_Listener $listener)
     {
         $this->listener = $listener;
     }
-
-    public function setLocale(string $locale): void
+    public function set_locale(string $locale): void
     {
-        $this->listener->setTranslatableLocale($locale);
+        $this->listener->set_translatable_locale($locale);
     }
-
-    public function getLocale(): string
+    public function get_locale(): string
     {
-        return $this->listener->getListenerLocale();
+        return $this->listener->get_listener_locale();
     }
 }
